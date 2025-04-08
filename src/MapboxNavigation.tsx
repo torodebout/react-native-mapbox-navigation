@@ -107,6 +107,7 @@ class MapboxNavigation extends React.Component<
       onCancelNavigation,
       onError,
       travelMode,
+      mapStyle = 'mapbox-streets',
       ...rest
     } = this.props;
 
@@ -128,6 +129,7 @@ class MapboxNavigation extends React.Component<
             onCancelNavigation?.(event.nativeEvent)
           }
           travelMode={travelMode}
+          mapStyle={mapStyle}
           {...rest}
         />
       </View>

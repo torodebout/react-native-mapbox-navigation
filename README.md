@@ -138,6 +138,7 @@ export default function App() {
       shouldSimulateRoute={false}
       showCancelButton={false}
       language="en"
+      mapStyle="mapbox-streets"
     />
   );
 }
@@ -164,6 +165,19 @@ const styles = StyleSheet.create({
 - `showCancelButton` (boolean): [Android Only] If true, shows a cancel button on the navigation screen. Defaults to `false`.
 
 - `language` (string): The language for the navigation instructions. Defaults to `en`.
+
+- `mapStyle` (string): [iOS Only] The style of the map to be used during navigation. Available options:
+  - 'standard': Standard Mapbox style
+  - 'mapbox-streets': Streets style (v12) - Default
+  - 'outdoors': Outdoors style (v12)
+  - 'light': Light style (v11)
+  - 'dark': Dark style (v11)
+  - 'satellite': Satellite style (v9)
+  - 'satellite-streets': Satellite streets style (v12)
+  - 'traffic-day': Traffic day style (v2)
+  - 'traffic-night': Traffic night style (v2)
+  - 'navigation-day': Navigation day style (v1)
+  - 'navigation-night': Navigation night style (v1)
 
 - `distanceUnit` ('metric' | 'imperial'): Unit of direction and voice instructions (default is 'imperial')
 

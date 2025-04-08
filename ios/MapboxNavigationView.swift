@@ -1,4 +1,3 @@
-
 import MapboxCoreNavigation
 import MapboxNavigation
 import MapboxDirections
@@ -63,6 +62,11 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
     @objc var language: NSString = "us"
     @objc var destinationTitle: NSString = "Destination"
     @objc var travelMode: NSString = "driving-traffic"
+    @objc var mapStyle: NSString = "mapbox-streets" {
+        didSet {
+            updateMapStyle()
+        }
+    }
 
     @objc var onLocationChange: RCTDirectEventBlock?
     @objc var onRouteProgressChange: RCTDirectEventBlock?
@@ -150,6 +154,11 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
                 let navigationOptions = NavigationOptions(simulationMode: strongSelf.shouldSimulateRoute ? .always : .never)
                 let vc = NavigationViewController(for: response, navigationOptions: navigationOptions)
 
+                // Set initial map style
+                if let styleURL = URL(string: "mapbox://styles/mapbox/\(strongSelf.mapStyle)") {
+                    vc.navigationMapView?.mapView.mapboxMap.style.uri = styleURL
+                }
+
                 vc.showsEndOfRouteFeedback = strongSelf.showsEndOfRouteFeedback
                 StatusView.appearance().isHidden = strongSelf.hideStatusView
 
@@ -204,5 +213,39 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
           "latitude": waypoint.coordinate.longitude,
         ])
         return true;
+    }
+
+    private func updateMapStyle() {
+        guard let navigationVC = navViewController else { return }
+        
+        let styleURL: URL
+        switch mapStyle as String {
+            case "standard":
+                styleURL = URL(string: "mapbox://styles/mapbox/standard")!
+            case "mapbox-streets":
+                styleURL = URL(string: "mapbox://styles/mapbox/streets-v12")!
+            case "outdoors":
+                styleURL = URL(string: "mapbox://styles/mapbox/outdoors-v12")!
+            case "light":
+                styleURL = URL(string: "mapbox://styles/mapbox/light-v11")!
+            case "dark":
+                styleURL = URL(string: "mapbox://styles/mapbox/dark-v11")!
+            case "satellite":
+                styleURL = URL(string: "mapbox://styles/mapbox/satellite-v9")!
+            case "satellite-streets":
+                styleURL = URL(string: "mapbox://styles/mapbox/satellite-streets-v12")!
+            case "traffic-day":
+                styleURL = URL(string: "mapbox://styles/mapbox/traffic-day-v2")!
+            case "traffic-night":
+                styleURL = URL(string: "mapbox://styles/mapbox/traffic-night-v2")!
+            case "navigation-day":
+                styleURL = URL(string: "mapbox://styles/mapbox/navigation-day-v1")!
+            case "navigation-night":
+                styleURL = URL(string: "mapbox://styles/mapbox/navigation-night-v1")!
+            default:
+                styleURL = URL(string: "mapbox://styles/mapbox/streets-v12")!
+        }
+        
+        navigationVC.navigationMapView?.mapView.mapboxMap.style.uri = styleURL
     }
 }

@@ -51,6 +51,19 @@ export type MapboxEvent = {
   message?: string;
 };
 
+export type MapboxStyle =
+  | 'standard'
+  | 'mapbox-streets'
+  | 'outdoors'
+  | 'light'
+  | 'dark'
+  | 'satellite'
+  | 'satellite-streets'
+  | 'traffic-day'
+  | 'traffic-night'
+  | 'navigation-day'
+  | 'navigation-night';
+
 export type NativeEventsProps = {
   onLocationChange?: (event: NativeEvent<Location>) => void;
   onRouteProgressChange?: (event: NativeEvent<RouteProgress>) => void;
@@ -69,6 +82,26 @@ export interface MapboxNavigationProps {
   destination: Coordinate & { title?: string };
   language?: Language;
   distanceUnit?: 'metric' | 'imperial';
+
+  /**
+   * Specifies the map style to use for navigation.
+   * 
+   * - 'standard': Standard Mapbox style
+   * - 'mapbox-streets': Streets style (v12)
+   * - 'outdoors': Outdoors style (v12)
+   * - 'light': Light style (v11)
+   * - 'dark': Dark style (v11)
+   * - 'satellite': Satellite style (v9)
+   * - 'satellite-streets': Satellite streets style (v12)
+   * - 'traffic-day': Traffic day style (v2)
+   * - 'traffic-night': Traffic night style (v2)
+   * - 'navigation-day': Navigation day style (v1)
+   * - 'navigation-night': Navigation night style (v1)
+   * 
+   * @Default "mapbox-streets"
+   * @available iOS
+   */
+  mapStyle?: MapboxStyle;
 
   /**
    * Specifies the mode of travel for navigation.
